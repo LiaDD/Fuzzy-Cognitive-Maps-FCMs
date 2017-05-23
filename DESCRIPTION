@@ -11,4 +11,6 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 Imports: reshape2, ggplot2
+VignetteBuilder: knitr
+Suggests: knitr, rmarkdown
 #Repository: CRAN

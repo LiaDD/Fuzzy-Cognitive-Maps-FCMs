@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Zoumpolia Dikopoulou, Elpiniki Papageorgiou" />
+
+<meta name="date" content="2017-05-23" />
+
+<title>Inference of Fuzzy Cognitive Maps (FCMs)</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Inference of Fuzzy Cognitive Maps (FCMs)</h1>
+<h4 class="author"><em>Zoumpolia Dikopoulou, Elpiniki Papageorgiou</em></h4>
+<h4 class="date"><em>2017-05-23</em></h4>
+
+
+
+<p><br></p>
+<div id="the-fcm-package" class="section level3">
+<h3>The fcm package</h3>
+<p>The fcm package includes the <strong>fcm.infer</strong> function which returns a dataframe of the concepts’ values of each state after the inference procedure.</p>
+<p><br></p>
+<div id="fuzzy-cognitive-maps-fcms" class="section level4">
+<h4>Fuzzy Cognitive Maps (FCMs)</h4>
+<p>Fuzzy Cognitive Map is a combination of fuzzy logic and cognitive mapping, and it is a way to represent knowledge of systems which are characterized of uncertainty and complex processes. FCMs were introduced by Kosko and since then they have gradually emerged as a powerful paradigm for knowledge representation. FCMs are ideal causal cognition tools for modeling and simulating dynamic systems.</p>
+<p>FCMs are fuzzy signed directed graphs with feedback. Each interconnection between two concepts <span class="math inline">\(C_{i}\)</span> and <span class="math inline">\(C_{j}\)</span> has a weight, a directed edge <span class="math inline">\(w_{ij}\)</span>, which indicates the strength of the causal relationships between concepts <span class="math inline">\(C_{i}\)</span> and <span class="math inline">\(C_{j}\)</span>. The value of the weight <span class="math inline">\(w_{ij}\)</span> indicates how strongly the concept <span class="math inline">\(C_{i}\)</span> influences concept <span class="math inline">\(C_{j}\)</span>.The time varying concept function <span class="math inline">\(C_{i}(t)\)</span> measures the non negative occurrence of some fuzzy event. There are three possible types of causal relationship between concept <span class="math inline">\(C_{i}\)</span> and concept <span class="math inline">\(C_{j}\)</span>, according to the sign of the weight <span class="math inline">\(w_{ij}\)</span>:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(w_{ij}&gt;0\)</span> indicates a positive causality between concept <span class="math inline">\(C_{i}\)</span> and concept <span class="math inline">\(C_{j}\)</span>. This means that an increase/decrease in the value of concept <span class="math inline">\(C_{i}\)</span> leads to the increase/decrease of the value of concept <span class="math inline">\(C_{j}\)</span>. (positive causality)</li>
+<li><span class="math inline">\(w_{ij}&lt;0\)</span> indicates a negative (inverse) causality between concept <span class="math inline">\(C_{i}\)</span> and concept <span class="math inline">\(C_{j}\)</span>. This means that an increase in the value of concept <span class="math inline">\(C_{i}\)</span> leads to a decrease of the value of concept <span class="math inline">\(C_{j}\)</span> and a decrease of the value of concept <span class="math inline">\(C_{i}\)</span> leads to an increase of the value of concept <span class="math inline">\(C_{j}\)</span>. ( negative causality)</li>
+<li><span class="math inline">\(w_{ij}=0\)</span> indicates no relationship between concept <span class="math inline">\(C_{i}\)</span> and <span class="math inline">\(C_{j}\)</span>. (zero causality)</li>
+</ol>
+<p><br></p>
+</div>
+<div id="inference-rules" class="section level4">
+<h4>Inference Rules</h4>
+<p>Every concept in the FCM graph has a value <span class="math inline">\(A_{i}\)</span> that expresses the quantity of its corresponding physical value and it is derived by the transformation of the fuzzy values assigned by the experts to numerical values. The value <span class="math inline">\(A_{i}\)</span> of each concept <span class="math inline">\(C_{i}\)</span> is calculated during every at each the simulation step, computing the influence of other concepts to the specific concept by selecting one of the following equtations (inference rules):</p>
+<table>
+<colgroup>
+<col width="25%"></col>
+<col width="74%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Inference Rule</strong></th>
+<th align="center"><strong>Equation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Kosko’s inference:*</td>
+<td align="center"><span class="math inline">\(A_{i}(k+1)=f\left(\sum_{j=1,j\neq1}^Nw_{ji}\times A_{j}(k)\right)\)</span></td>
+</tr>
+<tr class="even">
+<td>modified Kosko’s inference:</td>
+<td align="center"><span class="math inline">\(A_{i}(k+1)=f\left(A_{i}(k)+\sum_{j=1,j\neq1}^Nw_{ji}\times A_{j}(k)\right)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Rescale inference:</td>
+<td align="center"><span class="math inline">\(A_{i}(k+1)=f\left((2\times A_{i}(k)-1)+\sum_{j=1,j\neq1}^Nw_{ji}\times (2\times A_{j}(k)-1)\right)\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>where <span class="math inline">\(A_{i}(k+1)\)</span> is the value of concept <span class="math inline">\(C_{i}\)</span> at simulation step <span class="math inline">\(k+1\)</span>, <span class="math inline">\(A_{j}(k)\)</span> is the value of concept <span class="math inline">\(C_{j}\)</span> at the simulationstep <span class="math inline">\(k\)</span>, <span class="math inline">\(w_{ij}\)</span> is the weight of the interconnection between concept <span class="math inline">\(C_{j}\)</span> and concept <span class="math inline">\(C_{i}\)</span>, k is the interaction index an every simulation step and <span class="math inline">\(f(·)\)</span> is the threshold (activation) function:</p>
+<table>
+<colgroup>
+<col width="21%"></col>
+<col width="78%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Threshold function</strong></th>
+<th align="center"><strong>Equation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bivalent:</td>
+<td align="center"><span class="math display">\[f(x)= \left\{\begin{array}{ll} 1 &amp; x &gt; 0 \\0 &amp; x\leq 0 \\\end{array} \right.\]</span></td>
+</tr>
+<tr class="even">
+<td>Trivalent:</td>
+<td align="center"><span class="math display">\[f(x)= \left\{\begin{array}{ll} 1 &amp; x &gt; 0 \\0 &amp; x=0 \\-1 &amp; x&lt;0 \\\end{array} \right.\]</span></td>
+</tr>
+<tr class="odd">
+<td>Sigmoid:</td>
+<td align="center"><span class="math inline">\(f(x)=\frac{1}{1+e^{-\lambda\times x}}\)</span></td>
+</tr>
+<tr class="even">
+<td>Hyperbolic tangent:</td>
+<td align="center"><span class="math inline">\(f(x)=\tanh(\lambda\times x)\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>where is a real positive number (<span class="math inline">\(\lambda&gt;0\)</span>) which determines the steepness of the continuous function <span class="math inline">\(f\)</span> and <span class="math inline">\(x\)</span> is the value <span class="math inline">\(A_{i}(k)\)</span> on the equilibrium point. The sigmoid threshold function ensures that the calculated value of each concept will belong to the interval [0,1]. When the values of concepts can be negative and their values belong to the interval [-1,1], the following function is used: <span class="math inline">\(f(x)=tanh(x)\)</span>. The FCM model of the system takes the initial values of concepts and weights based on experts knolegde and experience for the real system and it is free to interact. At each step, the value <span class="math inline">\(A_{i}\)</span> of a concept is influenced by the values of concepts connected to it and it is updated according to the inference rule.</p>
+<p><br><br></p>
+</div>
+</div>
+<div id="how-to-obtain-the-fcm-inference-using-r" class="section level2">
+<h2>How to obtain the FCM inference using R?</h2>
+<div id="step-1-load-the-fcm-package" class="section level3">
+<h3>Step 1: Load the fcm package</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(fcm)</code></pre></div>
+<p><br><br></p>
+</div>
+<div id="step-2-create-or-import-the-weight-matrix-and-the-activation-vector" class="section level3">
+<h3>Step 2: Create (or import) the weight matrix and the activation vector</h3>
+<p>The <strong>weight matrix</strong> stores the weights assigned to the pairs of concepts which are usually normalized to the interval [0, 1] or [−1, +1]. The dimention of the weight matrix is m x m, where m denotes the number of the columns (nodes).</p>
+<p>The <strong>activation vector</strong> contains the initial concept values which each concept is turned on or activated by making its vector element 1 or 0 or in [0,1]. The dimention of the activation matrix is 1 x m.</p>
+<blockquote>
+<p>NOTE: Both of these input arguments should be tranformed as dataframes.</p>
+</blockquote>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">act.vec &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)    <span class="co"># Create the activation vector</span>
+<span class="kw">colnames</span>(act.vec) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;C1&quot;</span>, <span class="st">&quot;C2&quot;</span>, <span class="st">&quot;C3&quot;</span>, <span class="st">&quot;C4&quot;</span>, <span class="st">&quot;C5&quot;</span>, <span class="st">&quot;C6&quot;</span>)  <span class="co"># Change the column names</span>
+
+C1 =<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>)
+C2 =<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>)
+C3 =<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.0</span>, <span class="fl">0.7</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.9</span>, <span class="fl">0.0</span>)
+C4 =<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.9</span>)
+C5 =<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, -<span class="fl">0.9</span>)
+C6 =<span class="st"> </span><span class="kw">c</span>(-<span class="fl">0.3</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>)
+
+
+w.mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(C1, C2, C3, C4, C5, C6), <span class="dt">nrow =</span><span class="dv">6</span>, <span class="dt">ncol=</span><span class="dv">6</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>)   <span class="co"># Create the weight matrix</span>
+w.mat &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(w.mat)    <span class="co"># Transform w.mat as a dataframe</span>
+<span class="kw">colnames</span>(w.mat) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;C1&quot;</span>, <span class="st">&quot;C2&quot;</span>, <span class="st">&quot;C3&quot;</span>, <span class="st">&quot;C4&quot;</span>, <span class="st">&quot;C5&quot;</span>, <span class="st">&quot;C6&quot;</span>) 
+w.mat       <span class="co"># View the weight matrix</span></code></pre></div>
+<pre><code>##     C1  C2  C3  C4  C5   C6
+## 1  0.0 0.0 0.6 0.9 0.0  0.0
+## 2  0.1 0.0 0.0 0.0 0.0  0.0
+## 3  0.0 0.7 0.0 0.0 0.9  0.0
+## 4  0.0 0.0 0.0 0.0 0.0  0.9
+## 5  0.0 0.0 0.0 0.0 0.0 -0.9
+## 6 -0.3 0.0 0.0 0.0 0.0  0.0</code></pre>
+<blockquote>
+<p>NOTE: It is possible to import a file (for instance a .csv file), typing the file path. <code>w.mat &lt;- read.csv(&quot;C://type_the_file_path//name_of_file.csv&quot;)</code></p>
+</blockquote>
+<p><em>For more information about reading .csv files, type in R console:</em> <code>?read.csv</code>.</p>
+<p><br><br></p>
+</div>
+<div id="step-3-use-the-fcm.infer-function" class="section level3">
+<h3>Step 3: Use the fcm.infer function</h3>
+<p>There are seven input arguments in the <code>fcm.infer</code> function: <strong>the activation vector</strong>, <strong>the weight matrix</strong>, <strong>the number of iterations</strong>, <strong>the inference rule</strong>, <strong>the transformation function</strong>, <strong>lambda (<span class="math inline">\(\lambda\)</span>) parameter</strong> and <strong>epsilon (<span class="math inline">\(\epsilon\)</span>) parameter</strong>.</p>
+<ul>
+<li>the number of iteration is a possitive number (iter &gt; 0). Default value: <code>iter = 20</code></li>
+<li>six different inference rules are available (<code>'k'</code> Kosko, <code>'mk'</code> modified Kosko, <code>'r'</code> Rescale,<code>'kc'</code> Kosko-clamped, <code>'mkc'</code> modified Kosko-clamped or <code>'rc'</code> Rescale-clamped). Default value: <code>infer = 'k'</code></li>
+<li>four transformation functions (<code>b</code> Bivalent, <code>tr</code> Trivalent, <code>s</code> Sigmoid or <code>t</code> Hyperbolic tangent). Default value: <code>transform = 's'</code></li>
+<li>the lambda parameter is a positive number, higher than zero and lower-equal to ten. Default value: <code>lambda = 1</code></li>
+<li>the possible e values are: <code>0.01, 0.001, 0.0001, 0.00001 or 0.000001</code>. Default value: <code>e = 0.001</code></li>
+</ul>
+<p><br></p>
+<p>The <code>fcm.infer</code> function prints a message to inform the user if the convergence has been reached or not.</p>
+<ul>
+<li><p>If the convergence has been reached then the converged state (fixed point) is printed: <code>&quot;The concepts' values are converged in ith state&quot;</code>.</p></li>
+<li><p>If the convergence has not been reached a message informs the user that more iterations required: <code>&quot;More iterations are required to reach the convergence&quot;</code>.</p></li>
+</ul>
+<p><br></p>
+<p><strong>Example 1: Estimate the Inference of FCM (using the default values of the function)</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output1 &lt;-<span class="st"> </span><span class="kw">fcm.infer</span>(act.vec, w.mat)</code></pre></div>
+<pre><code>## 
+##  The concepts' values are converged in 6th state (e &lt;= 0.001000) 
+## 
+##         C1        C2        C3        C4        C5        C6
+##  0.4778365 0.5986462 0.5712033 0.6059079 0.6257586 0.4955168</code></pre>
+<p><br></p>
+<p><strong>Example 2: Estimate the FCM Inference (changing the default values)</strong></p>
+<p>The FCM Inference (fcm.infer) function is using the rescale <code>'r'</code> inference rule, the sigmoid <code>'s'</code> tranformation function, the lambda parameter equals to 3 <code>lambda = 3</code> and the e parameter <code>e = 0.0001</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output2 &lt;-<span class="st"> </span><span class="kw">fcm.infer</span>(act.vec, w.mat, <span class="dv">35</span>, <span class="st">&quot;r&quot;</span>, <span class="st">&quot;s&quot;</span>, <span class="dt">lambda =</span> <span class="dv">2</span>, <span class="dt">e =</span> <span class="fl">0.0001</span>)</code></pre></div>
+<pre><code>## 
+##  The concepts' values are converged in 30th state (e &lt;= 0.000100) 
+## 
+##         C1        C2        C3        C4        C5        C6
+##  0.8654104 0.9534946 0.9309104 0.9589686 0.9684847 0.3186077</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output2$values          <span class="co"># View the concepts' values for each iteration</span></code></pre></div>
+<pre><code>##           C1        C2        C3        C4        C5        C6
+## 1  1.0000000 1.0000000 1.0000000 0.0000000 0.0000000 0.0000000
+## 2  0.9426758 0.9677045 0.9608343 0.4501660 0.4501660 0.1192029
+## 3  0.9179445 0.9593460 0.9481304 0.8012773 0.8114818 0.1789925
+## 4  0.9038475 0.9565677 0.9424370 0.9375972 0.9457921 0.2106909
+## 5  0.8952183 0.9554297 0.9392881 0.9609935 0.9669441 0.2338428
+## 6  0.8891841 0.9548570 0.9373607 0.9632707 0.9692077 0.2523626
+## 7  0.8845094 0.9545244 0.9360451 0.9628218 0.9692708 0.2666038
+## 8  0.8807890 0.9543063 0.9350512 0.9621493 0.9691369 0.2775191
+## 9  0.8778103 0.9541466 0.9342632 0.9615592 0.9690137 0.2859616
+## 10 0.8754189 0.9540220 0.9336277 0.9610727 0.9689135 0.2925587
+## 11 0.8734943 0.9539220 0.9331126 0.9606759 0.9688324 0.2977590
+## 12 0.8719415 0.9538409 0.9326946 0.9603529 0.9687666 0.3018871
+## 13 0.8706860 0.9537751 0.9323549 0.9600900 0.9687130 0.3051822
+## 14 0.8696690 0.9537215 0.9320786 0.9598760 0.9686694 0.3078236
+## 15 0.8688440 0.9536779 0.9318538 0.9597017 0.9686340 0.3099481
+## 16 0.8681740 0.9536423 0.9316707 0.9595596 0.9686050 0.3116613
+## 17 0.8676294 0.9536134 0.9315216 0.9594438 0.9685815 0.3130458
+## 18 0.8671865 0.9535898 0.9314000 0.9593494 0.9685623 0.3141663
+## 19 0.8668261 0.9535705 0.9313010 0.9592724 0.9685466 0.3150745
+## 20 0.8665327 0.9535549 0.9312203 0.9592096 0.9685338 0.3158112
+## 21 0.8662938 0.9535421 0.9311544 0.9591584 0.9685234 0.3164094
+## 22 0.8660993 0.9535316 0.9311008 0.9591167 0.9685149 0.3168954
+## 23 0.8659408 0.9535231 0.9310571 0.9590827 0.9685080 0.3172905
+## 24 0.8658118 0.9535162 0.9310214 0.9590550 0.9685023 0.3176117
+## 25 0.8657066 0.9535105 0.9309924 0.9590324 0.9684977 0.3178731
+## 26 0.8656210 0.9535059 0.9309687 0.9590139 0.9684940 0.3180857
+## 27 0.8655513 0.9535022 0.9309494 0.9589989 0.9684909 0.3182588
+## 28 0.8654944 0.9534991 0.9309337 0.9589867 0.9684884 0.3183997
+## 29 0.8654481 0.9534966 0.9309208 0.9589767 0.9684864 0.3185144
+## 30 0.8654104 0.9534946 0.9309104 0.9589686 0.9684847 0.3186077
+## 31 0.8653797 0.9534929 0.9309019 0.9589620 0.9684834 0.3186838
+## 32 0.8653547 0.9534916 0.9308950 0.9589566 0.9684823 0.3187457
+## 33 0.8653343 0.9534905 0.9308893 0.9589522 0.9684814 0.3187961
+## 34 0.8653177 0.9534896 0.9308847 0.9589486 0.9684807 0.3188372
+## 35 0.8653042 0.9534888 0.9308810 0.9589457 0.9684801 0.3188707</code></pre>
+<p><br><br></p>
+</div>
+<div id="step-4-visualize-the-concepts-values-for-each-iteration" class="section level3">
+<h3>Step 4: Visualize the concepts’ values for each iteration</h3>
+<p>For the visualization of the concepts’ values for each iteration after the inference process, it is crusial to load the libraries: <code>reshape</code> and <code>ggplot2</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load the libraries</span>
+<span class="kw">library</span> (reshape2)
+<span class="kw">library</span> (ggplot2)</code></pre></div>
+<p><br></p>
+<p><strong>Visualization of Example 1:</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iterations &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">rownames</span>(output1$values))  <span class="co"># create a numeric vector named &quot;iterations&quot;</span>
+df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(iterations, output1$values)   <span class="co"># add &quot;iterations&quot; in the &quot;output1$values&quot; dataframe</span>
+df2 &lt;-<span class="st"> </span><span class="kw">melt</span>(df, <span class="dt">id=</span><span class="st">&quot;iterations&quot;</span>)              <span class="co"># transform the dataframe df into long formats</span>
+<span class="kw">ggplot</span>(<span class="dt">data=</span>df2,                              <span class="co"># Visualize the concepts' values </span>
+       <span class="kw">aes</span>(<span class="dt">x=</span>iterations, <span class="dt">y=</span>value, <span class="dt">group=</span>variable, <span class="dt">colour=</span>variable)) +
+<span class="st">       </span><span class="kw">theme_bw</span>() +<span class="st"> </span><span class="kw">geom_line</span>(<span class="dt">size=</span><span class="fl">0.7</span>) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>)</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --> <br></p>
+<p><strong>Visualization of Example 2:</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iterations &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">rownames</span>(output2$values))  
+df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(iterations, output2$values)   
+df2 &lt;-<span class="st"> </span><span class="kw">melt</span>(df, <span class="dt">id=</span><span class="st">&quot;iterations&quot;</span>)              
+<span class="kw">ggplot</span>(<span class="dt">data=</span>df2,
+       <span class="kw">aes</span>(<span class="dt">x=</span>iterations, <span class="dt">y=</span>value, <span class="dt">group=</span>variable, <span class="dt">colour=</span>variable)) +
+<span class="st">       </span><span class="kw">theme_bw</span>() +<span class="st"> </span><span class="kw">geom_line</span>(<span class="dt">size=</span><span class="fl">0.7</span>) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>)</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p><br></p>
+</div>
+<div id="references" class="section level3">
+<h3>References</h3>
+<ol style="list-style-type: decimal">
+<li>Kosko B., “Fuzzy cognitive maps”, International Journal of Man-Machine Studies 24, 65-75, 1986.</li>
+<li>Groumpos, P.P, Stylios, C.D.; “Modelling supervisory control systems using fuzzy cognitive maps”, Chaos, Solitons &amp; Fractals, Volume 11, Issues 1–3, p.p. 329–336, 2000.</li>
+<li>Papageorgiou E.I, “Fuzzy Cognitive Maps for Applied Sciences and Engineering From Fundamentals to Extensions and Learning Algorithms”, Intelligent Systems Reference Library, Volume 54, 2014.</li>
+<li>Papageorgiou E.I., Stylios C.D., Groumpos P.P. , “Unsupervised learning techniques for finetuning fuzzy cognitive map causal links.”, Int. J. Human Comput. Stud. Vol. 64, pp. 727–743, 2006.</li>
+<li>FCM Research and Development Group <a href="http://www.epapageorgiou.com/index.php/fcm-research-group" class="uri">http://www.epapageorgiou.com/index.php/fcm-research-group</a></li>
+</ol>
+<p><br><br></p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
