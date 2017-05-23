@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#' @title Fuzzy Cognitive Maps (FCMs) Inference\n#' @docType package\n#' @name fcm\n#' @description Estimates the Inference of a Fuzzy Cognitive Map. FCM is proven to be capable of causal inference and is applicable to complex decision problems where numerous interlinked dependent variables influence one another. The fcm package includes the fcm.infer function which returns a dataframe of the concepts' values of each state after the inference procedure.\n#' @imports reshape2, ggplot2\nNULL\n",
+    "created" : 1495453361558.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2959183611",
+    "id" : "9AB3248D",
+    "lastKnownWriteTime" : 1495538761,
+    "last_content_update" : 1495538761591,
+    "path" : "~/fcm/R/fcm.R",
+    "project_path" : "R/fcm.R",
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
