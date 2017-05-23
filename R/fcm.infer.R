@@ -1,8 +1,13 @@
 #' @title Fuzzy Cognitive Maps (FCMs) Inference
 #' @description Estimates the Inference of a Fuzzy Cognitive Map.  FCM is proven to be capable of causal inference and is applicable to complex decision problems where numerous interlinked dependent variables influence one another.
 #'
+<<<<<<< HEAD
 #' @param activation_vec 1 x m data frame which contains the initial concept values. A concept is turned on or activated by making its vector element 1 or 0 or in [0, 1].
 #' @param weight_mat m x m data frame which stores the weights assigned to the pairs of concepts. The weights are usually normalized to the interval [0, 1] or [−1, +1].
+=======
+#' @param activation_vec 1 x m dataframe which contains the initial concept values. A concept is turned on or activated by making its vector element 1 or 0 or in [0, 1].
+#' @param weight_mat m x m dataframe which stores the weights assigned to the pairs of concepts. The weights are usually normalized to the interval [0, 1] or [-1, +1].
+>>>>>>> 418df6803d76a63edbf09a288a88c3a3d1c7e40a
 #' @param iter The required number of iterations in order to reach the FCM convergence. Defaults to 20.
 #' @param infer Select an Inference Rule ('k' Kosko, 'mk' modified Kosko, 'r' Rescale,'kc' Kosko-clamped, 'mkc' modified Kosko-clamped or 'rc' Rescale-clamped). Default value is set to 'k'
 #' @param transform Contains the Transformation functions ('b' Bivalent,  'tr' Trivalent,  's' Sigmoid or 't' Hyperbolic tangent). The transformation function is used to reduce unbounded weighted sum to a certain range, which hinders quantitative analysis, but allows for qualitative comparisons between concepts. Default value is set equal to 's'.
@@ -36,7 +41,7 @@
 #' C7 = c(0.0, 0.0, 0.0, 0.0, 0.0, 0.8)
 #'
 #' # Create the weight matrix
-#' w.mat <- matrix(c(C1, C2, C3, C4, C5, C6, C7), nrow = 6, ncol = 6, byrow = TRUE)
+#' w.mat <- matrix(c(C1, C2, C3, C4, C5, C6), nrow = 6, ncol = 6, byrow = TRUE)
 #' colnames(w.mat) <- c("C1", "C2", "C3", "C4", "C5", "C6")
 #' w.mat <- as.data.frame(w.mat)
 #'
