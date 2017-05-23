@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "Package: fcm\nType: Package\nTitle: Fuzzy Cognitive Maps (FCMs) Inference\nVersion: 0.1.0\nDate: 23-05-2017\nAuthor: Zoumpoulia Dikopoulou <dikopoulia@gmail.com> <zoumpolia.dikopoulou@uhasselt.be>, Elpiniki Papageorgiou <epapageorgiou@teiste.gr>, <e.i.papageorgiou75@gmail.com>\nMaintainer: Zoumpoulia Dikopoulou <dikopoulia@gmail.com> <zoumpolia.dikopoulou@uhasselt.be>\nDescription: The fcm package includes the fcm.infer function which returns a dataframe of the concepts' values of each state after the inference procedure. Fuzzy Cognitive Map is a combination of fuzzy logic and cognitive mapping, and it is a way to represent knowledge of systems which are characterized of uncertainty and complex processes. FCMs were introduced by Kosko and since then they have gradually emerged as a powerful paradigm for knowledge representation. Fuzzy Cognitive Maps are ideal causal cognition tools for modeling and simulating dynamic systems.\nLicense: GPL-2\nEncoding: UTF-8\nLazyData: true\nRoxygenNote: 6.0.1\nImports: reshape2, ggplot2\n#Repository: CRAN\n",
+    "created" : 1495024871878.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3502154216",
+    "id" : "E254D717",
+    "lastKnownWriteTime" : 1495540624,
+    "last_content_update" : 1495540624862,
+    "path" : "~/fcm/DESCRIPTION",
+    "project_path" : "DESCRIPTION",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "dcf"
+}
