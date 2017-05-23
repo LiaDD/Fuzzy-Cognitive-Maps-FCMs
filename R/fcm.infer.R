@@ -1,15 +1,15 @@
 #' @title Fuzzy Cognitive Maps (FCMs) Inference
 #' @description Estimates the Inference of a Fuzzy Cognitive Map.  FCM is proven to be capable of causal inference and is applicable to complex decision problems where numerous interlinked dependent variables influence one another.
 #'
-#' @param activation_vec 1 x m dataframe which contains the initial concept values. A concept is turned on or activated by making its vector element 1 or 0 or in [0, 1].
-#' @param weight_mat m x m dataframe which stores the weights assigned to the pairs of concepts. The weights are usually normalized to the interval [0, 1] or [−1, +1].
+#' @param activation_vec 1 x m data frame which contains the initial concept values. A concept is turned on or activated by making its vector element 1 or 0 or in [0, 1].
+#' @param weight_mat m x m data frame which stores the weights assigned to the pairs of concepts. The weights are usually normalized to the interval [0, 1] or [−1, +1].
 #' @param iter The required number of iterations in order to reach the FCM convergence. Defaults to 20.
 #' @param infer Select an Inference Rule ('k' Kosko, 'mk' modified Kosko, 'r' Rescale,'kc' Kosko-clamped, 'mkc' modified Kosko-clamped or 'rc' Rescale-clamped). Default value is set to 'k'
 #' @param transform Contains the Transformation functions ('b' Bivalent,  'tr' Trivalent,  's' Sigmoid or 't' Hyperbolic tangent). The transformation function is used to reduce unbounded weighted sum to a certain range, which hinders quantitative analysis, but allows for qualitative comparisons between concepts. Default value is set equal to 's'.
 #' @param lambda A parameter that determines the steepness of the sigmoid and hyperbolic tangent function at values around 0. Different lambda value may perform more appropriate for different problems.
 #' @param e Epsilon (e) is a residual, describing the minimum error difference among the subsequent concepts. Its value depends on the application type. Defaults to to 0.001.
 #'
-#' @return Returns iter x m dataframe which contains the concepts' values of each iteration after the the transformation function.
+#' @return Returns iter x m data frame which contains the concepts' values of each iteration after the the transformation function.
 #' @export
 #' @author Zoumpolia Dikopoulou <dikopoulia@gmail.com>, <zoumpolia.dikopoulou@uhasselt.be>
 #' @author Elpiniki Papageorgiou <epapageorgiou@teiste.gr>, <e.i.papageorgiou75@gmail.com>

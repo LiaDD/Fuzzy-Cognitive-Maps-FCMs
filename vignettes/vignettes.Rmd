@@ -182,6 +182,6 @@ ggplot(data=df2,
 2. Groumpos, P.P, Stylios, C.D.; "Modelling supervisory control systems using fuzzy cognitive maps", Chaos, Solitons & Fractals, Volume 11, Issues 1–3, p.p. 329–336, 2000. 
 3. Papageorgiou E.I, "Fuzzy Cognitive Maps for Applied Sciences and Engineering From Fundamentals to Extensions and Learning Algorithms", Intelligent Systems Reference Library, Volume 54, 2014.
 4. Papageorgiou E.I., Stylios C.D., Groumpos P.P. , "Unsupervised learning techniques for finetuning fuzzy cognitive map causal links.", Int. J. Human Comput. Stud. Vol. 64, pp. 727–743, 2006.
-5. FCM Research and Development Group <http://www.epapageorgiou.com/index.php/fcm-research-group>
+
 
 <br><br>
