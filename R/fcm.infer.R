@@ -1,72 +1,29 @@
-#' @title Fuzzy Cognitive Maps (FCMs) Inference
-#' @description Estimates the Inference of a Fuzzy Cognitive Map.  FCM is proven to be capable of causal inference and is applicable to complex decision problems where numerous interlinked dependent variables influence one another.
-#'
-<<<<<<< HEAD
-#' @param activation_vec 1 x m data frame which contains the initial concept values. A concept is turned on or activated by making its vector element 1 or 0 or in [0, 1].
-#' @param weight_mat m x m data frame which stores the weights assigned to the pairs of concepts. The weights are usually normalized to the interval [0, 1] or [−1, +1].
-=======
-#' @param activation_vec 1 x m dataframe which contains the initial concept values. A concept is turned on or activated by making its vector element 1 or 0 or in [0, 1].
-#' @param weight_mat m x m dataframe which stores the weights assigned to the pairs of concepts. The weights are usually normalized to the interval [0, 1] or [-1, +1].
->>>>>>> 418df6803d76a63edbf09a288a88c3a3d1c7e40a
-#' @param iter The required number of iterations in order to reach the FCM convergence. Defaults to 20.
-#' @param infer Select an Inference Rule ('k' Kosko, 'mk' modified Kosko, 'r' Rescale,'kc' Kosko-clamped, 'mkc' modified Kosko-clamped or 'rc' Rescale-clamped). Default value is set to 'k'
-#' @param transform Contains the Transformation functions ('b' Bivalent,  'tr' Trivalent,  's' Sigmoid or 't' Hyperbolic tangent). The transformation function is used to reduce unbounded weighted sum to a certain range, which hinders quantitative analysis, but allows for qualitative comparisons between concepts. Default value is set equal to 's'.
-#' @param lambda A parameter that determines the steepness of the sigmoid and hyperbolic tangent function at values around 0. Different lambda value may perform more appropriate for different problems.
-#' @param e Epsilon (e) is a residual, describing the minimum error difference among the subsequent concepts. Its value depends on the application type. Defaults to to 0.001.
-#'
-#' @return Returns iter x m data frame which contains the concepts' values of each iteration after the the transformation function.
-#' @export
-#' @author Zoumpolia Dikopoulou <dikopoulia@gmail.com>, <zoumpolia.dikopoulou@uhasselt.be>
-#' @author Elpiniki Papageorgiou <epapageorgiou@teiste.gr>, <e.i.papageorgiou75@gmail.com>
-#'
-#' @references B. Kosko, "Fuzzy cognitive maps", International Journal of Man-Machine Studies 24, p.p. 65-75, 1986.
-#' @references Groumpos, P.P, Stylios, C.D.; "Modelling supervisory control systems using fuzzy cognitive maps", Chaos, Solitons & Fractals, Volume 11, Issues 1–3, p.p. 329–336, 2000.
-#' @references Papageorgiou E.I., "Fuzzy Cognitive Maps for Applied Sciences and Engineering From Fundamentals to Extensions and Learning Algorithms", Intelligent Systems Reference Library, Volume 54, 2014.
-#' @references Papageorgiou E.I., Stylios C.D., GroumposP.P. , "Unsupervised learning techniques for finetuning fuzzy cognitive map causal links.", Int. J. Human Comput. Stud. Vol. 64, pp. 727–743, 2006.
-#' @examples \dontrun{
-#' # Example for the FCM inference
-#'
-#'
-#' ### Input data
-#'
-#' act.vec <- data.frame(1, 1, 1, 0, 0, 0)    # Create the activation vector
-#' colnames(act.vec) <- c("C1", "C2", "C3", "C4", "C5", "C6")  # Change the column names
-#'
-#' C1 = c(0.0, 0.0, 0.6, 0.9, 0.0, 0.0)
-#' C2 = c(0.1, 0.0, 0.0, 0.0, 0.0, 0.0)
-#' C3 = c(0.0, 0.7, 0.0, 0.0, 0.9, 0.0)
-#' C4 = c(0.0, 0.0, 0.0, 0.0, 0.0, 0.9)
-#' C5 = c(0.0, 0.0, 0.0, 0.0, 0.0, -0.9)
-#' C6 = c(-0.3, 0.0, 0.0, 0.0, 0.0, 0.0)
-#' C7 = c(0.0, 0.0, 0.0, 0.0, 0.0, 0.8)
-#'
-#' # Create the weight matrix
-#' w.mat <- matrix(c(C1, C2, C3, C4, C5, C6), nrow = 6, ncol = 6, byrow = TRUE)
-#' colnames(w.mat) <- c("C1", "C2", "C3", "C4", "C5", "C6")
-#' w.mat <- as.data.frame(w.mat)
-#'
-#'
-#'
-#' ### Select the arguments for the fcm.infer function
-#'
-#' output <- fcm.infer(act.vec, w.mat, 25, "r", "s")
-#' View(output$values)          # View the concept values for each iteration
-#'
-#'
-#' ### Visualize the concepts' values for each state
-#'
-#' library (reshape2)
-#' library (ggplot2)
-#' iterations <- as.numeric(rownames(output$values))  # create a numeric vector named "iterations"
-#' df <- data.frame(iterations, output$values)   # add "iterations" in the "output$values" dataframe
-#' df2 <- melt(df, id="iterations")   #transform df into long formats
-#' ggplot(data=df2,
-#'        aes(x=iterations, y=value, group=variable, colour=variable)) +
-#'        theme_bw() + geom_line(size=0.7) + geom_point(size = 3)
-#'
-#' }
+# Fuzzy Cognitive Maps (FCMs) Inference
+# Provides a selection of 6 different inference rules and 4 threshold functions in order to obtain the inference of the FCM 
+# (Fuzzy Cognitive Map). Moreover, the 'fcm' package returns a data frame of the concepts' values of each state after the inference 
+# procedure. Fuzzy cognitive maps were introduced by Kosko (1986) providing ideal causal cognition tools for modeling and simulating 
+# dynamic systems. 
 
+# activation_vec: 1 x m data frame which contains the initial concept values. A concept is turned on or activated by making its vector element 1 or 0 or in [0, 1].
+# weight_mat: m x m data frame which stores the weights assigned to the pairs of concepts. The weights are usually normalized to the interval [0, 1] or [−1, +1].
+# iter: The required number of iterations in order to reach the FCM convergence. Defaults to 20.
+# infer: Select an Inference Rule ('k' Kosko, 'mk' modified Kosko, 'r' Rescale,'kc' Kosko-clamped, 'mkc' modified Kosko-clamped or 'rc' Rescale-clamped). Default value is set to 'k'
+# transform: Contains the Transformation functions ('b' Bivalent,  'tr' Trivalent,  's' Sigmoid or 't' Hyperbolic tangent). The transformation function is used to reduce unbounded weighted sum to a certain range, which hinders quantitative analysis, but allows for qualitative comparisons between concepts. Default value is set equal to 's'.
+# lambda: A parameter that determines the steepness of the sigmoid and hyperbolic tangent function at values around 0. Different lambda value may perform more appropriate for different problems.
+# e: Epsilon (e) is a residual, describing the minimum error difference among the subsequent concepts. Its value depends on the application type. Defaults to to 0.001.
 
+## Returns a iter x m data frame which contains the concepts' values of each iteration after the the transformation function.
+
+#####################################################################################################################################################################################################################
+# author Zoumpolia Dikopoulou <dikopoulia@gmail.com>, <zoumpolia.dikopoulou@uhasselt.be>
+# author Elpiniki Papageorgiou <epapageorgiou@teiste.gr>, <e.i.papageorgiou75@gmail.com>
+
+# References 
+# B. Kosko, "Fuzzy cognitive maps", International Journal of Man-Machine Studies 24, p.p. 65-75, 1986.
+# Groumpos, P.P, Stylios, C.D.; "Modelling supervisory control systems using fuzzy cognitive maps", Chaos, Solitons & Fractals, Volume 11, Issues 1–3, p.p. 329–336, 2000.
+# Papageorgiou E.I., "Fuzzy Cognitive Maps for Applied Sciences and Engineering From Fundamentals to Extensions and Learning Algorithms", Intelligent Systems Reference Library, Volume 54, 2014.
+# Papageorgiou E.I., Stylios C.D., GroumposP.P. , "Unsupervised learning techniques for finetuning fuzzy cognitive map causal links.", Int. J. Human Comput. Stud. Vol. 64, pp. 727–743, 2006.
+######################################################################################################################################################################################################################
 
   fcm.infer <- function (activation_vec, weight_mat, iter = 20, infer = 'k', transform = 's', lambda = 1, e = 0.001) {
 
